@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-!tmi(owsqedp=dkiza2&#v9)a@msi@mf$=#kwwzr!n)-qk43^c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '8000-florajenner-pixelandpap-8wfrrv9vbf2.ws.codeinstitute-ide.net'
+]
 
 
 # Application definition
@@ -66,7 +68,7 @@ ROOT_URLCONF = 'pixel_and_paper.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],  # Add this line
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

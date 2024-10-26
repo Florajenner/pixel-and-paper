@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Our Wall Art Collection</h1>
+  <ul>
+    {% for product in products %}
+      <li>
+        <a href="{% url 'product_detail' product.slug %}">{{ product.title }}</a> - £{{ product.price }}
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
