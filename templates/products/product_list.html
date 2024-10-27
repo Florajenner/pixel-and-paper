@@ -9,6 +9,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{ product.title }}</h5>
+                    <img src="{{ product.image.url }}" alt="{{ product.title }}" style="width:100px; height:auto;">
                     <p class="card-price">£{{ product.price }}</p>
                     <a href="{% url 'product_detail' product.slug %}" class="btn btn-primary mt-3">View Details</a>
                 </div>
