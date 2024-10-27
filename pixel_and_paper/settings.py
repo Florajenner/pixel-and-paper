@@ -29,6 +29,10 @@ ALLOWED_HOSTS = [
     '8000-florajenner-pixelandpap-8wfrrv9vbf2.ws.codeinstitute-ide.net'
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://8000-florajenner-pixelandpap-8wfrrv9vbf2.ws.codeinstitute-ide.net'
+]
+
 
 # Application definition
 
@@ -123,7 +127,6 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
@@ -137,3 +140,6 @@ STATICFILES_DIRS = [BASE_DIR / 'pixel_and_paper/static']
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
