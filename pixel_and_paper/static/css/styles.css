@@ -1,6 +1,6 @@
 /* Custom styling */
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif
 }
 
 .navbar-brand {
@@ -24,4 +24,41 @@ body {
 
 .btn-primary:hover {
     background-color: #45a049;
+}
+
+
+.navbar {
+    background-color: #343a40;
+}
+
+.navbar-brand, .navbar-nav .nav-link {
+    color: #f8f9fa !important;
+}
+
+footer {
+    background-color: #343a40;
+    color: #f8f9fa;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card-body {
+    text-align: center;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.card-price {
+    color: #4CAF50;
+    font-size: 1.1rem;
+    margin-top: 5px;
 }
