@@ -1,5 +1,10 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block content %}
-<h1>Welcome to Pixel & Paper!</h1>
-<p>Browse our collection of wall art.</p>
+    <div class="banner">
+        <img src="{% static 'images/banner.jpg' %}" alt="Banner Image">
+        <h1>Welcome to Pixel & Paper!</h1>
+        <p>Browse our collection of wall art.</p>
+    </div>
 {% endblock %}
