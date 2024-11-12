@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-!tmi(owsqedp=dkiza2&#v9)a@msi@mf$=#kwwzr!n)-qk43^c
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '8000-florajenner-pixelandpap-8wfrrv9vbf2.ws.codeinstitute-ide.net'
+    '8000-florajenner-pixelandpap-8wfrrv9vbf2.ws.codeinstitute-ide.net',
+    '8000-florajenner-pixelandpap-mufp4w0f195.ws-eu116.gitpod.io'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
