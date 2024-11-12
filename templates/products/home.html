@@ -1,10 +1,54 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends 'base.html' %}
 
 {% block content %}
-    <div class="banner">
-        <img src="{% static 'images/banner.jpg' %}" alt="Banner Image">
-        <h1>Welcome to Pixel & Paper!</h1>
-        <p>Browse our collection of wall art.</p>
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Discover Beautiful Art Supplies</h1>
+        <p>Curated materials for creative minds</p>
+        <a href="{% url 'product_list' %}" class="cta-button">Shop Now</a>
     </div>
+</div>
+
+<section class="featured-categories">
+    <h2>Shop Categories</h2>
+    <div class="category-grid">
+        <div class="category-card">
+            <img src="https://images.unsplash.com/photo-1454942901704-3c44c11b2ad1?w=600" alt="Digital Art">
+            <h3>Digital Art</h3>
+            <a href="#" class="category-link">Shop Digital</a>
+        </div>
+        <div class="category-card">
+            <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=600" alt="Traditional Art">
+            <h3>Traditional Art</h3>
+            <a href="#" class="category-link">Shop Traditional</a>
+        </div>
+        <div class="category-card">
+            <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600" alt="Art Papers">
+            <h3>Art Papers</h3>
+            <a href="#" class="category-link">Shop Papers</a>
+        </div>
+    </div>
+</section>
+
+<section class="about-section">
+    <div class="about-content">
+        <h2>About Pixel and Paper</h2>
+        <p>We believe in providing artists with the finest materials to bring their visions to life. Each product in our collection is carefully selected for quality and performance.</p>
+        <a href="#" class="about-link">Learn More</a>
+    </div>
+</section>
+
+<section class="featured-products">
+    <h2>Featured Products</h2>
+    <div class="product-grid">
+        {% for product in products %}
+        <div class="product-card">
+            <img src="{{ product.image.url }}" alt="{{ product.title }}">
+            <h3>{{ product.title }}</h3>
+            <p class="price">${{ product.price }}</p>
+            <a href="{% url 'product_detail' product.slug %}" class="product-link">View Details</a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 {% endblock %}

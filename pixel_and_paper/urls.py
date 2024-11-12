@@ -8,8 +8,4 @@ urlpatterns = [
     path('', product_views.home, name='home'),
     path('products/', include('products.urls')),
     path('admin/', admin.site.urls),
-]
-
-# Serve media files during development
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
