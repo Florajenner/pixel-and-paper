@@ -51,8 +51,9 @@
             <div class="footer-section">
                 <h3>Newsletter</h3>
                 <p>Subscribe for updates and exclusive offers.</p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Your email">
+                <form class="newsletter-form" method="POST" action="{% url 'newsletter_signup' %}">
+                    {% csrf_token %}
+                    <input type="email" name="email" placeholder="Your email" required>
                     <button type="submit">Subscribe</button>
                 </form>
             </div>
@@ -61,5 +62,7 @@
             <p>&copy; 2024 Pixel and Paper. All rights reserved.</p>
         </div>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
 </body>
 </html>

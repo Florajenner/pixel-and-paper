@@ -32,11 +32,13 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '8000-florajenner-pixelandpap-8wfrrv9vbf2.ws.codeinstitute-ide.net',
     '8000-florajenner-pixelandpap-mufp4w0f195.ws-eu116.gitpod.io',
-    'florajenner-pixelandpap-mufp4w0f195.ws-eu116.gitpod.io'
+    'florajenner-pixelandpap-mufp4w0f195.ws-eu116.gitpod.io',
+    '8080-florajenner-pixelandpap-mufp4w0f195.ws-eu116.gitpod.io'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://8000-florajenner-pixelandpap-8wfrrv9vbf2.ws.codeinstitute-ide.net'
+    'https://8000-florajenner-pixelandpap-8wfrrv9vbf2.ws.codeinstitute-ide.net',
+    'https://8000-florajenner-pixelandpap-mufp4w0f195.ws-eu116.gitpod.io'
 ]
 
 
@@ -149,8 +151,9 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = '35fzoasx@students.codeinstitute.net'
-EMAIL_HOST_PASSWORD = 'sfno msdv qgnh gfrc'
-
+EMAIL_HOST_PASSWORD = 'bivq obiw dsaw jhyj'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_TIMEOUT = 30
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
