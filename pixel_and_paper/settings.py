@@ -1,3 +1,5 @@
+import os
+
 """
 Django settings for pixel_and_paper project.
 
@@ -27,7 +29,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '8000-florajenner-pixelandpap-8wfrrv9vbf2.ws.codeinstitute-ide.net',
-    '8000-florajenner-pixelandpap-mufp4w0f195.ws-eu116.gitpod.io'
+    '8000-florajenner-pixelandpap-mufp4w0f195.ws-eu116.gitpod.io',
+    'florajenner-pixelandpap-mufp4w0f195.ws-eu116.gitpod.io'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -139,6 +142,13 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'pixel_and_paper/static']
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = '35fzoasx@students.codeinstitute.net'
+EMAIL_HOST_PASSWORD = 'sfno msdv qgnh gfrc'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -154,3 +164,6 @@ STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', '')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
 STRIPE_CURRENCY = 'usd'  # or 'gbp' if using British pounds
 STRIPE_WH_SECRET = os.environ.get('STRIPE_WH_SECRET', '')
+SITE_ID = 1
+
+
