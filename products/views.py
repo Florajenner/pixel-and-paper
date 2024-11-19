@@ -13,4 +13,11 @@ def product_list(request):
 # Product detail view
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug)
-    return render(request, 'products/product_detail.html', {'product': product})
+    related_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:3]
+    
+    context = {
+        'product': product,
+        'related_products': related_products,
+        'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+    }
+    return render(request, 'products/product_detail.html', context)
