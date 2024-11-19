@@ -23,7 +23,7 @@
             </div>
             <div class="nav-right">
                 <a href="#">Account</a>
-                <a href="#">Cart (0)</a>
+                <a href="{% url 'cart_view' %}">Cart (<span class="cart-count">{{ request.cart.get_item_count }}</span>)</a>
             </div>
         </nav>
     </header>

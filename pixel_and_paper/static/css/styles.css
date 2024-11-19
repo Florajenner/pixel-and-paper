@@ -293,77 +293,130 @@ footer {
 
 /* Product Detail */
 .product-detail {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    padding: 4rem 2rem;
+    display: flex;
+    gap: 2rem;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.product-images {
+    flex: 1;
 }
 
 .main-image img {
     width: 100%;
     height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-info {
+    flex: 1;
+    padding: 1rem;
 }
 
 .product-info h1 {
-    margin-top: 0;
-    font-size: 2.5rem;
+    font-size: 2rem;
+    margin: 0 0 1rem 0;
+    font-family: 'Cormorant Garamond', serif;
 }
 
-.product-info .price {
+.price {
     font-size: 1.5rem;
     color: var(--accent-color);
-    margin: 1rem 0;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
 }
 
 .product-description {
-    margin: 2rem 0;
-    line-height: 1.8;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    color: var(--secondary-color);
+}
+
+.product-actions {
+    margin-bottom: 2rem;
 }
 
 .quantity-selector {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.quantity-selector label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
 }
 
 .quantity-selector select {
     padding: 0.5rem;
-    margin-left: 0.5rem;
+    width: 100px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.add-to-cart-button, .checkout-button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
 }
 
 .add-to-cart-button {
-    width: 100%;
-    padding: 1rem;
     background-color: var(--primary-color);
     color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: 'Montserrat', sans-serif;
-    transition: background-color 0.3s;
 }
 
 .add-to-cart-button:hover {
     background-color: var(--accent-color);
 }
 
+.checkout-button {
+    background-color: #ffffff;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.checkout-button:hover {
+    background-color: var(--light-gray);
+}
+
 .product-meta {
     margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid #ddd;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.product-meta p {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
 }
 
 .related-products {
-    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 2rem 1rem;
     background-color: var(--light-gray);
 }
 
 .related-products h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
     text-align: center;
-    margin-bottom: 2rem;
 }
 
-/* Responsive Design */
+/* Consolidate responsive design rules */
 @media (max-width: 768px) {
     .main-nav {
         flex-direction: column;
@@ -383,9 +436,15 @@ footer {
     }
     
     .product-detail {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-        padding: 2rem;
+        flex-direction: column;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .add-to-cart-button, .checkout-button {
+        width: 100%;
     }
     
     .shop-filters {
@@ -397,17 +456,4 @@ footer {
         width: 100%;
         max-width: 300px;
     }
-}
-
-/* Utility Classes */
-.text-center {
-    text-align: center;
-}
-
-.mt-2 {
-    margin-top: 2rem;
-}
-
-.mb-2 {
-    margin-bottom: 2rem;
 }

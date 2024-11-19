@@ -18,16 +18,21 @@
             {{ product.description|linebreaks }}
         </div>
         
-        <div class="quantity-selector">
-            <label for="quantity">Quantity:</label>
-            <select name="quantity" id="quantity">
-                {% for i in "12345"|make_list %}
-                <option value="{{ i }}">{{ i }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        
-        <button id="checkout-button" class="checkout-button">Purchase Now</button>
+        <form method="POST" action="{% url 'add_to_cart' product.id %}" class="product-actions">
+            {% csrf_token %}
+            <div class="quantity-selector">
+                <label for="quantity">Quantity:</label>
+                <select name="quantity" id="quantity">
+                    {% for i in "12345"|make_list %}
+                    <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="button-group">
+                <button type="submit" class="add-to-cart-button">Add to Cart</button>
+                <button type="button" id="checkout-button" class="checkout-button">Buy Now</button>
+            </div>
+        </form>
         
         <div class="product-meta">
             <p class="category">Category: {{ product.category }}</p>

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="cart-page">
+    <h1>Shopping Cart</h1>
+    
+    {% if cart_items %}
+        <div class="cart-items">
+            {% for item in cart_items %}
+            <div class="cart-item" id="cart-item-{{ item.id }}">
+                <div class="item-image">
+                    {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}">
+                    {% endif %}
+                </div>
+                <div class="item-details">
+                    <h3>{{ item.product.title }}</h3>
+                    <p class="price">£{{ item.product.price }}</p>
+                </div>
+                <div class="item-quantity">
+                    <form class="update-quantity-form" data-item-id="{{ item.id }}">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="99">
+                        <button type="submit" class="update-btn">Update</button>
+                    </form>
+                </div>
+                <div class="item-subtotal">
+                    £<span class="subtotal">{{ item.get_subtotal }}</span>
+                </div>
+                <div class="item-remove">
+                    <form method="POST" action="{% url 'remove_from_cart' item.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="remove-btn">Remove</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="cart-summary">
+            <div class="subtotal">
+                <span>Subtotal:</span>
+                <span>£{{ total }}</span>
+            </div>
+            <div class="shipping">
+                <span>Shipping:</span>
+                <span>Calculated at checkout</span>
+            </div>
+            <div class="total">
+                <span>Total:</span>
+                <span>£{{ total }}</span>
+            </div>
+            <a href="{% url 'checkout' %}" class="checkout-btn">Proceed to Checkout</a>
+        </div>
+    {% else %}
+        <div class="empty-cart">
+            <p>Your cart is empty</p>
+            <a href="{% url 'product_list' %}" class="continue-shopping">Continue Shopping</a>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+document.querySelectorAll('.update-quantity-form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const itemId = this.dataset.itemId;
+        const formData = new FormData(this);
+        
+        fetch(`/cart/update/${itemId}/`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const itemElement = document.querySelector(`#cart-item-${itemId}`);
+            itemElement.querySelector('.subtotal').textContent = data.subtotal;
+            document.querySelector('.cart-summary .total span:last-child').textContent = `£${data.cart_total}`;
+            // Update cart count in header if you have one
+            document.querySelector('.cart-count').textContent = data.item_count;
+        });
+    });
+});
+</script>
+{% endblock %}

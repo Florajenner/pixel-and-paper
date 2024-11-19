@@ -11,4 +11,5 @@ urlpatterns = [
     path('marketing/', include('marketing.urls')),
     path('checkout/', include('checkout.urls')),  # Add this line
     path('admin/', admin.site.urls),
+    path('cart/', include('cart.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
