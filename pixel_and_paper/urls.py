@@ -9,6 +9,6 @@ urlpatterns = [
     path('', product_views.home, name='home'),
     path('products/', include('products.urls')),
     path('marketing/', include('marketing.urls')),
+    path('checkout/', include('checkout.urls')),  # Add this line
     path('admin/', admin.site.urls),
-    path('checkout/', include('checkout.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

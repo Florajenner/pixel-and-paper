@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from . import views, webhooks
 
 urlpatterns = [
     path('create-checkout-session/<int:product_id>/', views.create_checkout_session, name='create_checkout_session'),

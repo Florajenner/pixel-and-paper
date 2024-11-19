@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'products',
     'profiles',
     'orders',
+    'checkout',
 
     'django.contrib.sitemaps',
     'django.contrib.sites',
@@ -167,7 +168,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', '')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
-STRIPE_CURRENCY = 'usd'  # or 'gbp' if using British pounds
+STRIPE_CURRENCY = 'gbp'
 STRIPE_WH_SECRET = os.environ.get('STRIPE_WH_SECRET', '')
 SITE_ID = 1
 

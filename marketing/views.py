@@ -3,6 +3,9 @@ from django.http import HttpResponse
 from django.conf import settings
 import traceback
 from django.core.mail.backends.smtp import EmailBackend
+from django.shortcuts import redirect
+from django.contrib import messages
+from .models import NewsletterSubscriber
 
 def test_email(request):
     try:
@@ -31,3 +34,14 @@ def test_email(request):
     except Exception as e:
         error_trace = traceback.format_exc()
         return HttpResponse(f'Error sending email:\n{str(e)}\n\nTraceback:\n{error_trace}')
+
+
+def newsletter_signup(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        try:
+            NewsletterSubscriber.objects.create(email=email)
+            messages.success(request, 'Successfully subscribed to newsletter!')
+        except:
+            messages.error(request, 'Something went wrong or email already exists')
+    return redirect('home')
