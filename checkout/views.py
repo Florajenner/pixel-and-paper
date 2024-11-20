@@ -6,13 +6,14 @@ import stripe
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-def create_checkout_session(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    
+def create_checkout_session(request, product_id=None):
     try:
-        checkout_session = stripe.checkout.Session.create(
-            payment_method_types=['card'],
-            line_items=[{
+        line_items = []
+        
+        if product_id:
+            # Single product checkout
+            product = get_object_or_404(Product, id=product_id)
+            line_items.append({
                 'price_data': {
                     'currency': 'gbp',
                     'unit_amount': int(product.price * 100),
@@ -22,7 +23,26 @@ def create_checkout_session(request, product_id):
                     },
                 },
                 'quantity': 1,
-            }],
+            })
+        else:
+            # Cart checkout
+            cart = request.cart
+            for item in cart.items.all():
+                line_items.append({
+                    'price_data': {
+                        'currency': 'gbp',
+                        'unit_amount': int(item.product.price * 100),
+                        'product_data': {
+                            'name': item.product.title,
+                            'description': item.product.description,
+                        },
+                    },
+                    'quantity': item.quantity,
+                })
+
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=line_items,
             mode='payment',
             success_url=request.build_absolute_uri('/checkout/success/'),
             cancel_url=request.build_absolute_uri('/checkout/cancel/'),
