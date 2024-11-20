@@ -1,44 +1,33 @@
-from django.conf import settings
+from django.shortcuts import render
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render
-from products.models import Product
+from django.views.decorators.http import require_http_methods
+from django.conf import settings
 import stripe
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-def create_checkout_session(request, product_id=None):
+@require_http_methods(["POST"])
+def create_checkout_session(request):
     try:
+        cart = request.cart
+        if not cart or not cart.items.exists():
+            return JsonResponse({'error': 'Cart is empty'}, status=400)
+
         line_items = []
-        
-        if product_id:
-            # Single product checkout
-            product = get_object_or_404(Product, id=product_id)
+        for item in cart.items.all():
             line_items.append({
                 'price_data': {
                     'currency': 'gbp',
-                    'unit_amount': int(product.price * 100),
+                    'unit_amount': int(float(item.product.price) * 100),
                     'product_data': {
-                        'name': product.title,
-                        'description': product.description,
+                        'name': item.product.title,
+                        'description': str(item.product.description)[:500] if item.product.description else '',
                     },
                 },
-                'quantity': 1,
+                'quantity': item.quantity,
             })
-        else:
-            # Cart checkout
-            cart = request.cart
-            for item in cart.items.all():
-                line_items.append({
-                    'price_data': {
-                        'currency': 'gbp',
-                        'unit_amount': int(item.product.price * 100),
-                        'product_data': {
-                            'name': item.product.title,
-                            'description': item.product.description,
-                        },
-                    },
-                    'quantity': item.quantity,
-                })
+
+        print("Line items:", line_items)
 
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
@@ -47,8 +36,10 @@ def create_checkout_session(request, product_id=None):
             success_url=request.build_absolute_uri('/checkout/success/'),
             cancel_url=request.build_absolute_uri('/checkout/cancel/'),
         )
+
         return JsonResponse({'sessionId': checkout_session.id})
     except Exception as e:
+        print(f"Stripe error: {str(e)}")
         return JsonResponse({'error': str(e)}, status=400)
 
 def success_view(request):

@@ -3,6 +3,8 @@ from django.contrib import messages
 from django.http import JsonResponse
 from .models import Cart, CartItem
 from products.models import Product
+from django.conf import settings
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 def get_or_create_cart(request):
     if request.user.is_authenticated:
@@ -15,12 +17,14 @@ def get_or_create_cart(request):
         cart, created = Cart.objects.get_or_create(session_id=session_key)
     return cart
 
+@ensure_csrf_cookie
 def cart_view(request):
     cart = get_or_create_cart(request)
     context = {
         'cart': cart,
         'cart_items': cart.items.all(),
         'total': cart.get_total(),
+        'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
     }
     return render(request, 'cart/cart.html', context)
 

@@ -63,6 +63,8 @@
 <script src="https://js.stripe.com/v3/"></script>
 <script>
 var stripe = Stripe('{{ stripe_public_key }}');
+
+// Quantity update handler
 document.querySelectorAll('.update-quantity-form').forEach(form => {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -86,15 +88,34 @@ document.querySelectorAll('.update-quantity-form').forEach(form => {
     });
 });
 
+// Checkout handler
 document.querySelector('.checkout-btn').addEventListener('click', function(e) {
     e.preventDefault();
-    fetch('/checkout/create-checkout-session/')
-    .then(function(response) { return response.json(); })
-    .then(function(session) {
+    
+    this.disabled = true;
+    this.textContent = 'Processing...';
+
+    fetch('/checkout/create-checkout-session/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(session => {
         return stripe.redirectToCheckout({ sessionId: session.sessionId });
     })
-    .catch(function(error) {
+    .catch(error => {
         console.error('Error:', error);
+        alert('Checkout error: ' + error.message);
+        this.disabled = false;
+        this.textContent = 'Proceed to Checkout';
     });
 });
 </script>

@@ -8,10 +8,15 @@ class Cart(models.Model):
     session_id = models.CharField(max_length=100, null=True, blank=True)
 
     def get_total(self):
-        return sum(item.get_subtotal() for item in self.items.all())
+        total = sum(item.get_subtotal() for item in self.items.all())
+        return total if total else 0
 
     def get_item_count(self):
-        return sum(item.quantity for item in self.items.all())
+        count = self.items.aggregate(total=models.Sum('quantity'))['total']
+        return count if count else 0
+
+    def __str__(self):
+        return f"Cart {self.id}"
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, related_name='items', on_delete=models.CASCADE)
