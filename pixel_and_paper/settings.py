@@ -176,3 +176,6 @@ STRIPE_WH_SECRET = os.environ.get('STRIPE_WH_SECRET', '')
 SITE_ID = 1
 
 
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+

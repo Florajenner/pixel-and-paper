@@ -1,14 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-
-def handler404(request, exception):
-    return render(request, '404.html', status=404)
-
-def handler500(request):
-    return render(request, '500.html', status=500)
-
-    from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
 def register(request):
     if request.method == 'POST':
@@ -20,3 +13,10 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
+
+
+
+
+@login_required
+def profile(request):
+    return render(request, 'accounts/profile.html')

@@ -54,10 +54,11 @@ def update_cart(request, item_id):
         else:
             cart_item.delete()
             
+        cart = cart_item.cart
         return JsonResponse({
             'subtotal': cart_item.get_subtotal(),
-            'cart_total': cart_item.cart.get_total(),
-            'item_count': cart_item.cart.get_item_count()
+            'cart_total': cart.get_total(),
+            'item_count': cart.get_item_count()
         })
 
 def remove_from_cart(request, item_id):
