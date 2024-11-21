@@ -1,0 +1,1 @@
+web: gunicorn pixel_and_paper.wsgi:application
