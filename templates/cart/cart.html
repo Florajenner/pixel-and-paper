@@ -28,7 +28,7 @@
                     £<span class="subtotal">{{ item.get_subtotal }}</span>
                 </div>
                 <div class="item-remove">
-                    <form method="POST" action="{% url 'remove_from_cart' item.id %}">
+                    <form method="POST" action="{% url 'remove_from_cart' item.id %}" class="remove-form">
                         {% csrf_token %}
                         <button type="submit" class="remove-btn">Remove</button>
                     </form>
@@ -40,7 +40,7 @@
         <div class="cart-summary">
             <div class="subtotal">
                 <span>Subtotal:</span>
-                <span>£{{ total }}</span>
+                <span>£<span id="cart-subtotal">{{ total }}</span></span>
             </div>
             <div class="shipping">
                 <span>Shipping:</span>
@@ -48,9 +48,9 @@
             </div>
             <div class="total">
                 <span>Total:</span>
-                <span>£{{ total }}</span>
+                <span>£<span id="cart-total">{{ total }}</span></span>
             </div>
-            <button class="checkout-btn">Proceed to Checkout</button>
+            <button id="checkout-button" class="checkout-btn">Proceed to Checkout</button>
         </div>
     {% else %}
         <div class="empty-cart">
@@ -60,62 +60,99 @@
     {% endif %}
 </div>
 
-<script src="https://js.stripe.com/v3/"></script>
 <script>
-var stripe = Stripe('{{ stripe_public_key }}');
-
-// Quantity update handler
-document.querySelectorAll('.update-quantity-form').forEach(form => {
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const itemId = this.dataset.itemId;
-        const formData = new FormData(this);
-        
-        fetch(`/cart/update/${itemId}/`, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            const itemElement = document.querySelector(`#cart-item-${itemId}`);
-            itemElement.querySelector('.subtotal').textContent = data.subtotal;
-            document.querySelector('.cart-summary .total span:last-child').textContent = `£${data.cart_total}`;
-            document.querySelector('.cart-count').textContent = data.item_count;
+document.addEventListener('DOMContentLoaded', function() {
+    // Stripe initialization
+    const stripe = Stripe('{{ stripe_public_key }}');
+    
+    // Update quantity handlers
+    document.querySelectorAll('.update-quantity-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const itemId = this.dataset.itemId;
+            const formData = new FormData(this);
+            
+            fetch(`/cart/update/${itemId}/`, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                // Update item subtotal
+                const itemElement = document.querySelector(`#cart-item-${itemId}`);
+                itemElement.querySelector('.subtotal').textContent = data.subtotal.toFixed(2);
+                
+                // Update cart totals
+                document.getElementById('cart-subtotal').textContent = data.cart_total.toFixed(2);
+                document.getElementById('cart-total').textContent = data.cart_total.toFixed(2);
+                
+                // Update cart count in navigation
+                const cartLink = document.querySelector('.nav-right a:last-child');
+                cartLink.textContent = `Cart (${data.item_count})`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error updating cart: ' + error.message);
+            });
         });
     });
-});
-
-// Checkout handler
-document.querySelector('.checkout-btn').addEventListener('click', function(e) {
-    e.preventDefault();
     
-    this.disabled = true;
-    this.textContent = 'Processing...';
-
-    fetch('/checkout/create-checkout-session/', {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-        },
-        credentials: 'same-origin'
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(session => {
-        return stripe.redirectToCheckout({ sessionId: session.sessionId });
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Checkout error: ' + error.message);
-        this.disabled = false;
-        this.textContent = 'Proceed to Checkout';
+    // Checkout handler
+    const checkoutButton = document.getElementById('checkout-button');
+    if (checkoutButton) {
+        checkoutButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            this.disabled = true;
+            this.textContent = 'Processing...';
+            
+            fetch('/checkout/create-checkout-session/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(session => {
+                if (session.error) {
+                    throw new Error(session.error);
+                }
+                return stripe.redirectToCheckout({ sessionId: session.sessionId });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Checkout error: ' + error.message);
+                this.disabled = false;
+                this.textContent = 'Proceed to Checkout';
+            });
+        });
+    }
+    
+    // Remove item handlers
+    document.querySelectorAll('.remove-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            if (!confirm('Are you sure you want to remove this item?')) {
+                e.preventDefault();
+            }
+        });
     });
 });
 </script>

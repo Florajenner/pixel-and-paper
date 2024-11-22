@@ -3,7 +3,10 @@ from django.shortcuts import render, get_object_or_404
 from .models import Product
 
 def home(request):
-    return render(request, 'products/home.html')
+    featured_products = Product.objects.all()[:3]  # Get 3 featured products
+    return render(request, 'products/home.html', {
+        'products': featured_products
+    })
 
 def product_list(request):
     products = Product.objects.all()
