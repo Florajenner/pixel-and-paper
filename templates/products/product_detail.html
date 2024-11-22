@@ -13,6 +13,13 @@
     <div class="product-info">
         <h1>{{ product.title }}</h1>
         <p class="price">£{{ product.price }}</p>
+
+        <div class="product-specs">
+            <p><strong>Dimensions:</strong> {{ product.dimensions }}</p>
+            <p><strong>File Format:</strong> {{ product.file_format }}</p>
+            <p><strong>License:</strong> Personal Use Only</p>
+            <p><strong>Delivery:</strong> Instant Digital Download</p>
+        </div>
         
         <div class="product-description">
             {{ product.description|linebreaks }}

@@ -3,8 +3,8 @@
 {% block content %}
 <div class="hero-section">
     <div class="hero-content">
-        <h1>Discover Beautiful Art Supplies</h1>
-        <p>Curated materials for creative minds</p>
+        <h1>Beautiful Digital Wall Art</h1>
+        <p>Instant downloads for your space</p>
         <a href="{% url 'product_list' %}" class="cta-button">Shop Now</a>
     </div>
 </div>
@@ -13,42 +13,52 @@
     <h2>Shop Categories</h2>
     <div class="category-grid">
         <div class="category-card">
-            <img src="https://images.unsplash.com/photo-1454942901704-3c44c11b2ad1?w=600" alt="Digital Art">
-            <h3>Digital Art</h3>
-            <a href="#" class="category-link">Shop Digital</a>
+            <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=600" alt="Abstract Art">
+            <h3>Abstract Art</h3>
+            <a href="#" class="category-link">Shop Abstract</a>
         </div>
         <div class="category-card">
-            <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=600" alt="Traditional Art">
-            <h3>Traditional Art</h3>
-            <a href="#" class="category-link">Shop Traditional</a>
+            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600" alt="Typography">
+            <h3>Typography</h3>
+            <a href="#" class="category-link">Shop Typography</a>
         </div>
         <div class="category-card">
-            <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600" alt="Art Papers">
-            <h3>Art Papers</h3>
-            <a href="#" class="category-link">Shop Papers</a>
+            <img src="https://images.unsplash.com/photo-1511884642898-4c92249e20b6?w=600" alt="Nature & Landscapes">
+            <h3>Nature & Landscapes</h3>
+            <a href="#" class="category-link">Shop Landscapes</a>
         </div>
     </div>
 </section>
 
 <section class="about-section">
     <div class="about-content">
-        <h2>About Pixel and Paper</h2>
-        <p>We believe in providing artists with the finest materials to bring their visions to life. Each product in our collection is carefully selected for quality and performance.</p>
+        <h2>About Our Digital Art</h2>
+        <p>Transform your space with our curated collection of downloadable wall art. Each piece is carefully designed in high resolution for immediate download and printing.</p>
         <a href="#" class="about-link">Learn More</a>
     </div>
 </section>
 
 <section class="featured-products">
-    <h2>Featured Products</h2>
+    <h2>Featured Artwork</h2>
     <div class="product-grid">
-        {% for product in products %}
         <div class="product-card">
-            <img src="{{ product.image.url }}" alt="{{ product.title }}">
-            <h3>{{ product.title }}</h3>
-            <p class="price">£{{ product.price }}</p>
-            <a href="{% url 'product_detail' product.slug %}" class="product-link">View Details</a>
+            <img src="https://images.unsplash.com/photo-1499781350541-7783f6c6a0c8?w=600" alt="Abstract Art">
+            <h3>Abstract Flow</h3>
+            <p class="price">£24.99</p>
+            <a href="#" class="product-link">View Details</a>
         </div>
-        {% endfor %}
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=600" alt="Minimalist Nature">
+            <h3>Mountain Lines</h3>
+            <p class="price">£19.99</p>
+            <a href="#" class="product-link">View Details</a>
+        </div>
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1567095761054-7a02e69e5c43?w=600" alt="Typography Art">
+            <h3>Modern Quote</h3>
+            <p class="price">£14.99</p>
+            <a href="#" class="product-link">View Details</a>
+        </div>
     </div>
 </section>
 {% endblock %}

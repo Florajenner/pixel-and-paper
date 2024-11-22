@@ -4,7 +4,13 @@
 <div class="success-page">
     <h1>Thank you for your purchase!</h1>
     <p>Your order has been successfully processed.</p>
-    <p>You will receive a confirmation email shortly.</p>
+    
+    <div class="download-section">
+        <h2>Your Downloads</h2>
+        <p>Your files are ready to download. Links will expire in 24 hours.</p>
+        <a href="{{ product.downloadable_file.url }}" class="download-button">Download Now</a>
+    </div>
+    
     <a href="{% url 'product_list' %}" class="button">Continue Shopping</a>
 </div>
 {% endblock %}
