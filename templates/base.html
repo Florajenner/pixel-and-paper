@@ -7,13 +7,19 @@
     <meta name="description" content="{% block meta_description %}{{ META_DESCRIPTION }}{% endblock %}">
     <meta name="keywords" content="{% block meta_keywords %}{{ META_KEYWORDS }}{% endblock %}">
     <meta name="author" content="Pixel and Paper">
-    <meta property="og:title" content="{% block og_title %}Pixel and Paper{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}{{ META_DESCRIPTION }}{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}{{ product.title|default:'Pixel and Paper' }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ product.description|default:META_DESCRIPTION }}{% endblock %}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <meta property="og:site_name" content="Pixel and Paper">
+    <meta property="og:image" content="{% block og_image %}{{ product.preview_image.url|default:'' }}{% endblock %}">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="canonical" href="{{ request.build_absolute_uri }}" />
     <title>{% block title %}Pixel and Paper{% endblock %}</title>
+    
+<!-- CSS -->
+<link rel="stylesheet" href="{% static 'css/styles.css' %}"> 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     {% if messages %}
@@ -101,7 +107,9 @@ setTimeout(() => {
             <p>&copy; 2024 Pixel and Paper. All rights reserved.</p>
         </div>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
+    {% block extra_js %}{% endblock %}
 </body>
 </html>
