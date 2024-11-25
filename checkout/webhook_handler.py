@@ -3,6 +3,7 @@ from orders.models import Order
 import stripe
 import json
 import time
+from utils.decorators import role_required
 
 class StripeWH_Handler:
     """Handle Stripe webhooks"""
@@ -16,6 +17,7 @@ class StripeWH_Handler:
             content=f'Unhandled webhook received: {event["type"]}',
             status=200)
 
+    @role_required(['admin'])
     def handle_payment_intent_succeeded(self, event):
         """Handle the payment_intent.succeeded webhook"""
         intent = event.data.object
@@ -52,3 +54,5 @@ class StripeWH_Handler:
         return HttpResponse(
             content=f'Webhook received: {event["type"]} | Payment Failed',
             status=200)
+
+

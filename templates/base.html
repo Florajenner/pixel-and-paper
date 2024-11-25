@@ -4,9 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}{{ META_DESCRIPTION }}{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}{{ META_KEYWORDS }}{% endblock %}">
+    <meta name="author" content="Pixel and Paper">
+    <meta property="og:title" content="{% block og_title %}Pixel and Paper{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ META_DESCRIPTION }}{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:site_name" content="Pixel and Paper">
+    <link rel="canonical" href="{{ request.build_absolute_uri }}" />
     <title>{% block title %}Pixel and Paper{% endblock %}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     {% if messages %}

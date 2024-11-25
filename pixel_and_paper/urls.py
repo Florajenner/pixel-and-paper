@@ -7,12 +7,11 @@ from django.views.generic import TemplateView
 from products import views as product_views
 from marketing import views as marketing_views
 from django.contrib.auth import views as auth_views
-from . import views
-from .sitemaps import ProductSitemap, StaticSitemap
+from .sitemaps import StaticViewSitemap, ProductSitemap
 
 sitemaps = {
+    'static': StaticViewSitemap,
     'products': ProductSitemap,
-    'static': StaticSitemap,
 }
 
 urlpatterns = [
@@ -24,12 +23,6 @@ urlpatterns = [
     path('cart/', include('cart.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('accounts.urls')),
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
-         name='django.contrib.sitemaps.views.sitemap'),
-    path('robots.txt',
-         TemplateView.as_view(
-             template_name="robots.txt",
-             content_type="text/plain",
-             extra_context={'debug': settings.DEBUG}
-         )),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -6,7 +6,10 @@ from django.conf import settings
 from .models import Cart, CartItem
 from products.models import Product
 from decimal import Decimal
+from utils.decorators import role_required
 
+
+@role_required(['admin'])
 def get_or_create_cart(request):
     if request.user.is_authenticated:
         cart, created = Cart.objects.get_or_create(user=request.user)
@@ -102,3 +105,4 @@ def remove_from_cart(request, item_id):
             messages.error(request, "Error removing item from cart.")
             
     return redirect('cart_view')
+
