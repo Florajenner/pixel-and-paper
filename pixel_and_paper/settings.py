@@ -52,9 +52,10 @@ LOGGING = {
 }
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://*.codeinstitute-ide.net',
+    'https://pixelandpaper-eeb22a300d68.herokuapp.com',
     'https://*.herokuapp.com',
-    'https://pixel-and-paper.herokuapp.com',
+    'https://*.codeinstitute-ide.net',
+    'https://*.gitpod.io',
 ]
 
 ALLOWED_HOSTS = [
@@ -62,6 +63,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '8000-florajenner-pixelandpap-xrmzfff1cqb.ws.codeinstitute-ide.net'
+    'pixelandpaper-eeb22a300d68.herokuapp.com',
 ]
 
 INSTALLED_APPS = [
